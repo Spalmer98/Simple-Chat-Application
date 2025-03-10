@@ -1,4 +1,5 @@
 import socketserver
+import os
 
 # Class to handle to client data being transfered and sending it to those connected.
 class ClientHandler(socketserver.BaseRequestHandler):
@@ -7,6 +8,11 @@ class ClientHandler(socketserver.BaseRequestHandler):
         # Gets the client's username and prints to the server that they have connected.
         self.username = self.request.recv(1024).decode('utf-8').strip()
         print(f"{self.username} connected.")
+
+        # Tells all connected clients if a new client connects
+        for client in server.clients:
+            if client != self.request:
+                client.sendall(f"{self.username} connected\n".encode('utf-8'))
         
         # Loop receive and send data to clients on the server.
         while True:
@@ -18,7 +24,7 @@ class ClientHandler(socketserver.BaseRequestHandler):
                     break
                 message = data.decode('utf-8')
                 print(f"{self.username}: {message}")
-                
+
                 # Loop to send the data from a client to the other clients connected to the server.
                 for client in server.clients:
                     # As long as the client isn't the sender it will send the data to the clients in the client list. 
@@ -33,6 +39,12 @@ class ClientHandler(socketserver.BaseRequestHandler):
         
         # Tells the server terminal that a client has disconnected
         print(f"{self.username} disconnected.")
+
+        # Displays to other clients when someone disconnects
+        for client in server.clients:
+            if client != self.request:
+                client.sendall(f"{self.username} disconnected\n".encode('utf-8'))
+
         # Removes client from the clients list.
         server.clients.remove(self.request)
 
@@ -52,5 +64,7 @@ if __name__ == "__main__":
 
     server = ThreadedTCPServer((HOST, PORT), ClientHandler)
     with server:
+        os.system('cls')
+        os.system('clear')
         print(f"Server started on {HOST}:{PORT}")
         server.serve_forever()
