@@ -5,8 +5,6 @@ This is a simple chat program that allows users on other devices to communicate 
 
 I'm pretty fluent with Python but I've never created software that's designed to communicate with other devices. I wanted to take this opportunity to further my skills and abilities with Python and coding. Through this project I learned some basics of network communication through Python and how I can apply that knowledge and my skills in the future. I want to push my knowledge and abilities further, so this software is a stepping stone in that direction.
 
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the software running (you will need to show two pieces of software running and communicating with each other) and a walkthrough of the code.}
-
 [Software Demo Video](https://youtu.be/t8MhCu1l-nM)
 
 # Network Communication
